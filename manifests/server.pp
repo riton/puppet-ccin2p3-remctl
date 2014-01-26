@@ -11,14 +11,13 @@ class remctl::server (
     $manage_group       = false,
     $confdir            = $remctl::params::confdir,
     $conffile           = $remctl::params::conffile,
-    $package_name       = $remctl::params::package_name,
-    $package_ensure     = 'latest',
     $server_bin         = $remctl::params::server_bin,
     $only_from          = [ '0.0.0.0' ]
 ) inherits remctl::params {
 
     require stdlib
     include xinetd
+    include remctl
 
     validate_bool($debug)
     validate_bool($disable)
@@ -80,12 +79,6 @@ class remctl::server (
             notify      => Package[$package_name]
         }
     }
-
-    package { $package_name:
-        ensure      => $package_ensure,
-    }
-
-    ->
 
     file { $confdir:
         ensure      => directory,
