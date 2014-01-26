@@ -1,7 +1,6 @@
 class remctl::params {
 
     $debug                      = false
-    $krb5_service               = 'remctl'
     $port                       = 4373
     $disable                    = true
 
@@ -9,6 +8,7 @@ class remctl::params {
         'RedHat': {
             $confdir            = '/etc/remctl.d'
             $conffile           = '/etc/remctl.conf'
+            $acldir             = "${confdir}/acl"
             $package_name       = 'remctl'
             $krb5_keytab        = '/etc/krb5.keytab'
             $server_bin         = '/usr/sbin/remctld'
@@ -20,3 +20,6 @@ class remctl::params {
     }
 
 }
+
+# vim: tabstop=4 shiftwidth=4 softtabstop=4
+
