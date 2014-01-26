@@ -58,8 +58,11 @@ class remctl::server (
         $_only_from = undef
     }
 
-    notify { 'str':
-        message => "_disable = $_disable"
+    if $disable {
+        $_disable = "yes"
+    }
+    else {
+        $_disable = "no"
     }
 
     if $manage_group {
@@ -103,11 +106,23 @@ class remctl::server (
 
     ->
 
+    # 2014-01-26 Warning(remi):
+    # Production version of stdlib does not support *multiple* option
+    file_line { 'remctl_etc_services':
+        path        => '/etc/services',
+        ensure      => present,
+        match       => 'remctl\s+\d+\/tcp',
+        # multiple    => false,
+        line        => "remctl              $port/tcp            # remote authenticated command execution"
+    }
+
+    ->
+
     xinetd::service { 'remctl':
-        port        => $port,
+        port        => $port, # Dupplicate with /etc/services info
         server      => $server_bin,
         server_args => "${_debug}${_krb5_service}${_conffile}",
-        disable     => $disable,
+        disable     => $_disable,
         protocol    => 'tcp',
         socket_type => 'stream',
         user        => $user,
