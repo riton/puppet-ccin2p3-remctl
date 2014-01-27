@@ -11,6 +11,7 @@ class remctl::server (
     $manage_group       = false,
     $confdir            = $remctl::params::confdir,
     $conffile           = $remctl::params::conffile,
+    $acldir             = $remctl::params::acldir,
     $server_bin         = $remctl::params::server_bin,
     $only_from          = [ '0.0.0.0' ]
 ) inherits remctl::params {
@@ -89,9 +90,18 @@ class remctl::server (
 
     ->
 
+    file { $acldir:
+        ensure      => directory,
+        mode        => '0750',
+        owner       => $user,
+        group       => $group
+    }
+
+    ->
+
     file { $conffile:
         ensure      => file,
-        source      => "puppet:///modules/remctl/remctl.conf",
+        content     => template("remctl/remctl.conf"),
         mode        => '0750',
         owner       => $user,
         group       => $group,

@@ -9,6 +9,7 @@ class remctl::params {
         'RedHat': {
             $confdir            = '/etc/remctl.d'
             $conffile           = '/etc/remctl.conf'
+            $acldir             = "${confdir}/acl"
             $package_name       = 'remctl'
             $krb5_keytab        = '/etc/krb5.keytab'
             $server_bin         = '/usr/sbin/remctld'

@@ -1,0 +1,14 @@
+<%#
+One or more entries of the form [method:]data, where method specifies an access control method to be used, and data contains parameters whose meaning
+depends on the method.  If the method is omitted, the data is processed as described for the "file" method.
+
+If method is omitted, acl must either begin with "/" or must not contain "=".  Otherwise, it will be parsed as an option instead.
+If there is any ambiguity, prepend the method.
+
+Each entry is checked in order, and access is granted as soon as an entry matches.
+If no entry matches, access is denied.
+-%>
+
+<% @acls.each do |acl| -%>
+<%= acl %>
+<% end -%>

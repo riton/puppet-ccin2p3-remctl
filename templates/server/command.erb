@@ -1,0 +1,27 @@
+<%#
+The configuration file defines the allowed commands and specifies access control information.
+
+The configuration file format is lines of space- or tab-separated strings, where each line is:
+  command subcommand executable [option=value ...] acl [acl ...]
+
+Each command consists of a command, a subcommand, and zero or more arguments.
+Each configuration line defines an acceptable command and subcommand (or,
+if "ALL" is used as mentioned below under command and subcommand, a set of commands).
+The first configuration line matching the received command is used,
+so list more specific entries before more general entries.
+
+Blank lines and lines beginning with "#" are ignored.
+-%>
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+
+<%= @name %> <%= @subcommand %> \
+<%= @executable %> \
+<%# Options -%>
+<% @options.each_pair do |option, value| -%>
+<%= option %>=<%= value %> \
+<% end -%>
+<%# Acls -%>
+<% @acls.each do |ac| -%>
+<%= acl %> \
+<% end -%>
