@@ -5,8 +5,8 @@ class remctl::server (
     $krb5_service       = $remctl::params::krb5_service,
     $krb5_keytab        = $remctl::params::krb5_keytab,
     $port               = $remctl::params::port,
-    $user               = 'remctl',
-    $group              = 'remctl',
+    $user               = 'root',
+    $group              = 'root',
     $manage_user        = false,
     $manage_group       = false,
     $confdir            = $remctl::params::confdir,
@@ -66,18 +66,22 @@ class remctl::server (
     }
 
     if $manage_group {
-        group { $group:
-            ensure      => present,
-            notify      => User[$user]
+        if $group != "root" {
+            group { $group:
+                ensure      => present,
+                notify      => User[$user]
+            }
         }
     }
 
     if $manage_user {
-        user { $user:
-            ensure      => present,
-            comment     => 'remctl user',
-            gid         => $group,
-            notify      => Package[$package_name]
+        if $user != "root" {
+            user { $user:
+                ensure      => present,
+                comment     => 'remctl user',
+                gid         => $group,
+                notify      => Package[$package_name]
+            }
         }
     }
 
