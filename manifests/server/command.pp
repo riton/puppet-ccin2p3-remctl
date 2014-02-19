@@ -8,6 +8,7 @@ define remctl::server::command (
     validate_string($subcommand)
     validate_string($executable)
     validate_hash($options)
+    validate_array($acls)
 
     $cmdfile = "${remctl::server::confdir}/${name}"
 

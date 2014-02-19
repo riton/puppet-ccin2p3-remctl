@@ -14,14 +14,11 @@ Blank lines and lines beginning with "#" are ignored.
 -%>
 # This file is being maintained by Puppet.
 # DO NOT EDIT
-
 <%= @name %> <%= @subcommand %> \
 <%= @executable %> \
 <%# Options -%>
-<% @options.each_pair do |option, value| -%>
-<%= option %>=<%= value %> \
+<% @options.each_pair do |key, value| -%>
+<%= key -%>=<%= value -%> \
 <% end -%>
 <%# Acls -%>
-<% @acls.each do |ac| -%>
-<%= acl %> \
-<% end -%>
+<%= @acls.join(' ') %>
