@@ -113,14 +113,14 @@ class remctl::server (
 
     ->
 
-    # 2014-01-26 Warning(remi):
-    # Production version of stdlib does not support *multiple* option
-    file_line { 'remctl_etc_services':
-        path        => '/etc/services',
-        ensure      => present,
-        match       => 'remctl\s+\d+\/tcp',
-        # multiple    => false,
-        line        => "remctl              $port/tcp            # remote authenticated command execution"
+    augeas { 'remctl_etc_services':
+        context     => '/files/etc/services',
+        changes     => [
+            'set service-name[.="remctl"] remctl',
+            "set service-name[.='remctl']/port $port",
+            'set service-name[.="remctl"]/protocol tcp',
+            'set service-name[.="remctl"]/#comment "remote authenticated command execution"'
+        ]
     }
 
     ->
