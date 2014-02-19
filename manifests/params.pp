@@ -1,7 +1,6 @@
 class remctl::params {
 
     $debug                      = false
-    $krb5_service               = 'remctl'
     $port                       = 4373
     $disable                    = true
 

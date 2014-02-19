@@ -2,7 +2,7 @@
 class remctl::server (
     $debug              = $remctl::params::debug,
     $disable            = $remctl::params::disable,
-    $krb5_service       = $remctl::params::krb5_service,
+    $krb5_service       = undef,
     $krb5_keytab        = $remctl::params::krb5_keytab,
     $port               = $remctl::params::port,
     $user               = 'root',
