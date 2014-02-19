@@ -106,7 +106,7 @@ class remctl::server (
     file { $conffile:
         ensure      => file,
         content     => template("remctl/remctl.conf"),
-        mode        => '0750',
+        mode        => '0640',
         owner       => $user,
         group       => $group,
     }
