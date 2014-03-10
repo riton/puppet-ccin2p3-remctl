@@ -24,7 +24,7 @@
 
 ##Overview
 
-The remctl module allows you to set up remctl server through xinetd but also remctl command and ACL files throw puppet manifests.
+The remctl module allows you to set up remctl server through xinetd but also remctl command and ACL files via puppet manifests.
 
 ##Module Description
 
