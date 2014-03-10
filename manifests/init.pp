@@ -1,5 +1,5 @@
+
 class remctl (
-    $package_name       = $remctl::params::package_name,
     $package_ensure     = 'latest',
 ) inherits remctl::params {
 
@@ -8,3 +8,5 @@ class remctl (
     }
 
 }
+
+# vim: tabstop=4 shiftwidth=4 softtabstop=4

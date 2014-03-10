@@ -1,5 +1,6 @@
 
 class remctl::server (
+    $ensure             = 'present',
     $debug              = $remctl::params::debug,
     $disable            = $remctl::params::disable,
     $krb5_service       = undef,
@@ -9,24 +10,28 @@ class remctl::server (
     $group              = 'root',
     $manage_user        = false,
     $manage_group       = false,
-    $confdir            = $remctl::params::confdir,
-    $conffile           = $remctl::params::conffile,
-    $acldir             = $remctl::params::acldir,
-    $server_bin         = $remctl::params::server_bin,
     $only_from          = [ '0.0.0.0' ]
 ) inherits remctl::params {
 
     require stdlib
-    include xinetd
-    include remctl
 
+    if ! defined(Class['Remctl']) {
+        fail('You must include the remctl class before using any remctl::server resources')
+    }
+
+    if ! defined(Class['Xinetd']) {
+        include xinetd
+    }
+
+    validate_string($ensure)
+    validate_string($user)
+    validate_string($group)
     validate_bool($debug)
     validate_bool($disable)
     validate_bool($manage_user)
     validate_bool($manage_group)
     validate_string($krb5_service)
     validate_string($krb5_keytab)
-    validate_string($server_bin)
     validate_re($port, '^\d+$')
     validate_array($only_from)
 
@@ -126,7 +131,8 @@ class remctl::server (
     ->
 
     xinetd::service { 'remctl':
-        port        => $port, # Dupplicate with /etc/services info
+        ensure      => $ensure,
+        port        => $port, # Dupplicate with /etc/services info but xinetd::service requires it
         server      => $server_bin,
         server_args => "${_debug}${_krb5_service}${_conffile}",
         disable     => $_disable,
@@ -137,3 +143,5 @@ class remctl::server (
         only_from   => $_only_from
     }
 }
+
+# vim: tabstop=4 shiftwidth=4 softtabstop=4

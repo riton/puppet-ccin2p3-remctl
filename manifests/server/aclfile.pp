@@ -8,6 +8,7 @@ define remctl::server::aclfile (
     }
 
     validate_array($acls)
+    validate_absolute_path($acldir)
 
     if $acls and size($acls) > 0 {
         file { "${acldir}/${name}":
@@ -20,3 +21,5 @@ define remctl::server::aclfile (
     }
 
 }
+
+# vim: tabstop=4 shiftwidth=4 softtabstop=4
