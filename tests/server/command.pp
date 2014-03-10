@@ -1,4 +1,5 @@
 
+include remctl
 class {'remctl::server': }
 
 remctl::server::command { 'my_test_command':

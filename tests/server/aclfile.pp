@@ -1,4 +1,5 @@
 
+include remctl
 class {'remctl::server': }
 
 remctl::server::aclfile {'acl_file1': 
