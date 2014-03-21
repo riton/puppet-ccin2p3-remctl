@@ -1,0 +1,23 @@
+language: ruby
+
+before_install:
+    - wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb
+    - sudo dpkg -i puppetlabs-release-precise.deb
+    - sudo apt-get update
+
+install: sudo apt-get install puppet xinetd
+
+before_script:
+    - cd ../
+    - mv puppet-ccin2p3-remctl remctl
+    - cd remctl
+    - sudo puppet module install puppetlabs-stdlib
+    - sudo puppet module install puppetlabs-xinetd
+
+script:
+    - sudo ./run_tests.sh
+
+notifications:
+    email:
+        on_success: always
+        on_failure: always
