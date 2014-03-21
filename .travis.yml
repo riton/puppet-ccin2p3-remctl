@@ -5,7 +5,7 @@ before_install:
     - sudo dpkg -i puppetlabs-release-precise.deb
     - sudo apt-get update
 
-install: sudo apt-get install puppet
+install: sudo apt-get install puppet xinetd
 
 before_script:
     - cd ../
