@@ -10,7 +10,7 @@ before_script:
     - cd remctl
 
 script:
-    - ./run_tests.sh
+    - "NOOP='' ./run_tests.sh"
 
 notifications:
     email:
