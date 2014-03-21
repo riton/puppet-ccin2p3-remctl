@@ -13,6 +13,7 @@ before_script:
     - cd remctl
     - puppet module install puppetlabs-stdlib
     - puppet module install puppetlabs-xinetd
+    - find /home/travis/.puppet/modules -ls
 
 script:
     - ./run_tests.sh
