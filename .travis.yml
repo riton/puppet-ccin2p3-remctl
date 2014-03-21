@@ -1,6 +1,9 @@
 language: ruby
 
-before_install: sudo apt-get update
+before_install:
+    - wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb
+    - sudo dpkg -i puppetlabs-release-precise.deb
+    - sudo apt-get update
 
 install: sudo apt-get install puppet
 
@@ -8,9 +11,11 @@ before_script:
     - cd ../
     - mv puppet-ccin2p3-remctl remctl
     - cd remctl
+    - puppet module install puppetlabs-stdlib
+    - puppet module install puppetlabs-xinetd
 
 script:
-    - "NOOP='' ./run_tests.sh"
+    - ./run_tests.sh
 
 notifications:
     email:
