@@ -1,0 +1,18 @@
+language: ruby
+
+before_install: sudo apt-get update
+
+install: sudo apt-get install puppet
+
+before_script:
+    - cd ../
+    - mv puppet-ccin2p3-remctl remctl
+    - cd remctl
+
+script:
+    - ./run_tests.sh
+
+notifications:
+    email:
+        on_success: always
+        on_failure: always
