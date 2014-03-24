@@ -1,5 +1,7 @@
 #remctl
 
+[![Build Status](https://travis-ci.org/riton/puppet-ccin2p3-remctl.svg?branch=travis-ci)](https://travis-ci.org/riton/puppet-ccin2p3-remctl)
+
 ####Table of Contents
 
 1. [Overview - What is the remctl module](#overview)
