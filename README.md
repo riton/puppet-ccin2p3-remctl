@@ -1,5 +1,7 @@
 #remctl
 
+[![Build Status](https://travis-ci.org/riton/puppet-ccin2p3-remctl.svg?branch=travis-ci)](https://travis-ci.org/riton/puppet-ccin2p3-remctl)
+
 ####Table of Contents
 
 1. [Overview - What is the remctl module](#overview)
@@ -24,7 +26,7 @@
 
 ##Overview
 
-The remctl module allows you to set up remctl server throw xinetd but also remctl command and ACL files throw puppet manifests.
+The remctl module allows you to set up remctl server through xinetd but also remctl command and ACL files via puppet manifests.
 
 ##Module Description
 
@@ -215,4 +217,4 @@ Array of acls as desribed in `remctld(8)` `acl` section.
 
 ##Limitations
 
-This module currently only work on `RedHat` osfamily and expects that the `remctl` package is available with your current repository configuration.
+This module currently only work on `RedHat` and `Debian` os families and expects that the `remctl` package is available with your current repository configuration.
