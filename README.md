@@ -217,4 +217,4 @@ Array of acls as desribed in `remctld(8)` `acl` section.
 
 ##Limitations
 
-This module currently only work on `RedHat` osfamily and expects that the `remctl` package is available with your current repository configuration.
+This module currently only work on `RedHat` and `Debian` os families and expects that the `remctl` package is available with your current repository configuration.
