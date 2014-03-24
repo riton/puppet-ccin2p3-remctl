@@ -8,6 +8,12 @@ old_modpath=$(puppet config print modulepath)
 modpath="${old_modpath}:$(pwd)/.."
 for t in $(find ./tests -type f -name '*.pp')
 do
-    puppet apply --modulepath=${modpath} --verbose --noop ${t}
-    [[ $? -ne 0 ]] && { echo "FAIL: '${t}'" >&2; exit 1; }
+    echo "[*] -- ${t} --"
+    puppet apply --modulepath=${modpath} --verbose --debug --noop ${t}
+    [[ $? -ne 0 ]] && { echo "FAIL: '${t}'" >&2; exit 2; }
+    echo "[*] -- ${t} passed --"
 done
+
+echo "[*] All tests passed"
+
+exit 0
