@@ -14,6 +14,15 @@ class remctl::params {
             $server_bin         = '/usr/sbin/remctld'
         }
 
+	'Debian': {
+            $confdir            = '/etc/remctl.d'
+            $conffile           = '/etc/remctl.conf'
+            $acldir             = "${confdir}/acl"
+            $package_name       = 'remctl-server'
+            $krb5_keytab        = '/etc/krb5.keytab'
+            $server_bin         = '/usr/sbin/remctld'
+	}
+
         default: {
             fail("remctl: module does not support osfamily ${::osfamily}")
         }

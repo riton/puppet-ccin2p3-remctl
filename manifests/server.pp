@@ -121,10 +121,15 @@ class remctl::server (
     augeas { 'remctl_etc_services':
         context     => '/files/etc/services',
         changes     => [
-            'set service-name[.="remctl"] remctl',
-            "set service-name[.='remctl']/port $port",
-            'set service-name[.="remctl"]/protocol tcp',
-            'set service-name[.="remctl"]/#comment "remote authenticated command execution"'
+            'defnode remctltcp service-name[.="remctl"][protocol = "tcp"] remctl',
+            "set \$remctltcp/port $port",
+            'set $remctltcp/protocol tcp',
+            'set $remctltcp/#comment "remote authenticated command execution"',
+
+            'defnode remctludp service-name[.="remctl"][protocol = "udp"] remctl',
+            "set \$remctludp/port $port",
+            'set $remctludp/protocol udp',
+            'set $remctludp/#comment "remote authenticated command execution"'
         ]
     }
 
