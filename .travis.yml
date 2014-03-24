@@ -11,9 +11,8 @@ before_script:
     - cd ../
     - mv puppet-ccin2p3-remctl remctl
     - cd remctl
-    - sudo puppet module install puppetlabs-stdlib
-    - sudo puppet module install puppetlabs-xinetd
-    - sudo puppet config print
+    - puppet module install puppetlabs-stdlib
+    - puppet module install puppetlabs-xinetd
 
 script:
     - ./run_tests.sh
