@@ -35,6 +35,13 @@ class remctl::server (
     validate_re($port, '^\d+$')
     validate_array($only_from)
 
+    if ($port == $remctl::params::port) {
+        $_xinetd_service_type = undef
+    }
+    else {
+        $_xinetd_service_type = 'UNLISTED'
+    }
+
     if $debug {
         $_debug = "-d "
     }
@@ -127,34 +134,35 @@ class remctl::server (
 
     ->
 
+    # Note(remi):
+    # As suggested by Russ A.:
+    # - Only update /etc/services if official remctl port was used.
+    # - Do not register UDP service anymore as it's very unlikely that
+    #   UDP will be used someday.
     augeas { 'remctl_etc_services':
         context     => '/files/etc/services',
         changes     => [
             'defnode remctltcp service-name[.="remctl"][protocol = "tcp"] remctl',
-            "set \$remctltcp/port $port",
+            "set \$remctltcp/port $remctl::params::port",
             'set $remctltcp/protocol tcp',
             'set $remctltcp/#comment "remote authenticated command execution"',
-
-            'defnode remctludp service-name[.="remctl"][protocol = "udp"] remctl',
-            "set \$remctludp/port $port",
-            'set $remctludp/protocol udp',
-            'set $remctludp/#comment "remote authenticated command execution"'
-        ]
+        ],
     }
 
     ->
 
     xinetd::service { 'remctl':
-        ensure      => $ensure,
-        port        => $port, # Dupplicate with /etc/services info but xinetd::service requires it
-        server      => $server_bin,
-        server_args => "${_debug}${_krb5_service}${_conffile}",
-        disable     => $_disable,
-        protocol    => 'tcp',
-        socket_type => 'stream',
-        user        => $user,
-        group       => $group,
-        only_from   => $_only_from
+        ensure          => $ensure,
+        port            => $port, # Dupplicate with /etc/services info but xinetd::service requires it
+        service_type    => $_xinetd_service_type,
+        server          => $server_bin,
+        server_args     => "${_debug}${_krb5_service}${_conffile}",
+        disable         => $_disable,
+        protocol        => 'tcp',
+        socket_type     => 'stream',
+        user            => $user,
+        group           => $group,
+        only_from       => $_only_from
     }
 }
 
