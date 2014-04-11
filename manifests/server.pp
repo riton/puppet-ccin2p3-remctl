@@ -90,6 +90,15 @@ class remctl::server (
         }
     }
 
+    file { $basedir:
+        ensure      => directory,
+        mode        => '0750',
+        owner       => $user,
+        group       => $group
+    }
+
+    ->
+
     file { $confdir:
         ensure      => directory,
         mode        => '0750',
