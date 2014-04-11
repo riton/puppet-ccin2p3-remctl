@@ -7,12 +7,13 @@
 1. [Overview - What is the remctl module](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
 3. [Setup - The basics of getting started with remctl](#setup)
-    * [What remctl affects](#what-[modulename]-affects)
+    * [What remctl affects](#what-remctl-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with remctl](#beginning-with-remctl)
 4. [Usage - Configuration options and additional functionality](#usage)
     * [Classes and Defined Types](#classes-and-defined-types)
         * [Class: remctl](#class-remctl)
+        * [Class: remctl::client](#class-remctlclient)
         * [Class: remctl::server](#class-remctlserver)
         * [Defined Type: remctl::server::aclfile](#defined-type-remctlserveraclfile)
         * [Defined Type: remctl::server::command](#defined-type-remctlservercommand)
@@ -26,7 +27,10 @@
 
 ##Overview
 
-The remctl module allows you to set up remctl server through xinetd but also remctl command and ACL files via puppet manifests.
+The remctl module allows you to:
+* install remctl client through puppet manifests.
+* set up remctl server through xinetd
+* manage remctl command and ACL files via puppet manifests.
 
 ##Module Description
 
@@ -43,6 +47,12 @@ This module provides simplified way to deploy server, command and ACL files.
 * listened-to ports
 
 ###Beginning with remctl    
+
+To install remctl client
+
+```puppet
+    class { 'remctl::client': }
+```
 
 To install remctl server
 
@@ -82,9 +92,22 @@ To create a new puppet managed command
 
 ####Class: `remctl`
 
-Base class that handles package installation.
+Base class that actually does nothing anymore.
 
 **Parameters within `remctl`:**
+
+####Class: `remctl::client`
+
+This class is used to install remctl client.
+
+**Parameters within `remctl::client`:**
+
+#####`package_name`
+
+Name of package to be installed. Defaults to:
+
+* `remctl` on RedHat `osfamily`
+* `remctl-client` on Debian `osfamily`
 
 #####`package_ensure`
 
@@ -92,9 +115,21 @@ Base class that handles package installation.
 
 ####Class: `remctl::server`
 
+This class is used to install remctl server and configure it through xinetd.
 This class MUST be declared in order to be able to use ACL or command types.
 
 **Parameters within `remctl::server`:**
+
+#####`package_name`
+
+Name of package to be installed. Defaults to:
+
+* `remctl` on RedHat `osfamily`
+* `remctl-server` on Debian `osfamily`
+
+#####`package_ensure`
+
+`ensure` property, passed to puppet `package` type.
 
 #####`ensure`
 
@@ -206,8 +241,9 @@ Array of acls as desribed in `remctld(8)` `acl` section.
 
 ####Public Classes
 
-* [`remctl`](#class-remctl): Install remctl
-* [`remctl::server`](#class-remctlserver): Configure remctl server through xinetd and handles configuration file
+* [`remctl`](#class-remctl): This class actually does nothing
+* [`remctl::client`](#class-remctlclient): Install remctl client
+* [`remctl::server`](#class-remctlserver): Install, configure remctl server through xinetd and handles configuration file
 
 ####Private Classes
 
@@ -222,4 +258,4 @@ Array of acls as desribed in `remctld(8)` `acl` section.
 
 ##Limitations
 
-This module currently only work on `RedHat` and `Debian` os families and expects that the `remctl` package is available with your current repository configuration.
+This module currently only work on `RedHat` and `Debian` os families and expects that the `remctl*` packages are available with your current repository configuration.

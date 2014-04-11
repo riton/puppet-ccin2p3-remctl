@@ -6,23 +6,25 @@ class remctl::params {
 
     case $::osfamily {
         'RedHat': {
-            $basedir            = '/etc/remctl'
-            $confdir            = "${basedir}/conf.d"
-            $conffile           = "${basedir}/remctl.conf"
-            $acldir             = "${basedir}/acl"
-            $package_name       = 'remctl'
-            $krb5_keytab        = '/etc/krb5.keytab'
-            $server_bin         = '/usr/sbin/remctld'
+            $basedir                = '/etc/remctl'
+            $confdir                = "${basedir}/conf.d"
+            $conffile               = "${basedir}/remctl.conf"
+            $acldir                 = "${basedir}/acl"
+            $server_package_name    = 'remctl'
+            $client_package_name    = $server_package_name
+            $krb5_keytab            = '/etc/krb5.keytab'
+            $server_bin             = '/usr/sbin/remctld'
         }
 
 	'Debian': {
-            $basedir            = '/etc/remctl'
-            $confdir            = "${basedir}/conf.d"
-            $conffile           = "${basedir}/remctl.conf"
-            $acldir             = "${basedir}/acl"
-            $package_name       = 'remctl-server'
-            $krb5_keytab        = '/etc/krb5.keytab'
-            $server_bin         = '/usr/sbin/remctld'
+            $basedir                = '/etc/remctl'
+            $confdir                = "${basedir}/conf.d"
+            $conffile               = "${basedir}/remctl.conf"
+            $acldir                 = "${basedir}/acl"
+            $server_package_name    = 'remctl-server'
+            $client_package_name    = 'remctl-client'
+            $krb5_keytab            = '/etc/krb5.keytab'
+            $server_bin             = '/usr/sbin/remctld'
 	}
 
         default: {

@@ -10,14 +10,13 @@ class remctl::server (
     $group              = 'root',
     $manage_user        = false,
     $manage_group       = false,
-    $only_from          = [ '0.0.0.0' ]
+    $only_from          = [ '0.0.0.0' ],
+
+    $package_ensure     = 'latest',
+    $package_name       = $remctl::params::server_package_name
 ) inherits remctl::params {
 
     require stdlib
-
-    if ! defined(Class['Remctl']) {
-        fail('You must include the remctl class before using any remctl::server resources')
-    }
 
     if ! defined(Class['Xinetd']) {
         include xinetd
@@ -34,6 +33,8 @@ class remctl::server (
     validate_string($krb5_keytab)
     validate_re($port, '^\d+$')
     validate_array($only_from)
+    validate_string($package_ensure)
+    validate_string($package_name)
 
     if ($port == $remctl::params::port) {
         $_xinetd_service_type = undef
@@ -96,6 +97,12 @@ class remctl::server (
             }
         }
     }
+
+    package { $package_name:
+        ensure      => $package_ensure,
+    }
+
+    ->
 
     file { $basedir:
         ensure      => directory,
