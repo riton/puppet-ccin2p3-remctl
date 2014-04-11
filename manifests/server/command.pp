@@ -1,4 +1,5 @@
 define remctl::server::command (
+    $command,
     $subcommand,
     $executable,
     $options            = {},
@@ -9,11 +10,11 @@ define remctl::server::command (
         fail('You must include the remctl::server class before using any remctl::server::command resources')
     }
 
+    validate_string($command)
     validate_string($subcommand)
     validate_absolute_path($executable)
     validate_hash($options)
     validate_array($acls)
-
 
     $cmdfile = "${remctl::server::confdir}/${name}"
 

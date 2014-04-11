@@ -65,6 +65,7 @@ To create a new puppet managed command
 
 ```puppet
     remctl::server::command { 'reboot':
+        command         => 'reboot',
         subcommand      => 'ALL',
         executable      => '/sbin/reboot',
         options         => {
@@ -160,6 +161,10 @@ remctl command file resource type.
 This class should be used to describe a command that will be available through the remctl interface.
 
 **Parameters within `remctl::server::command`:**
+
+#####`command`
+
+Required. command as described in `remctld(8)` `command` section.
 
 #####`subcommand`
 
