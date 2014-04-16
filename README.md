@@ -79,9 +79,35 @@ To create a new puppet managed command
         subcommand      => 'ALL',
         executable      => '/sbin/reboot',
         options         => {
-            help    => '--help',
+            'help'  => '--help',
         },
         acls            => ["file:${remctl::server::acldir}/administrators"]
+    }
+```
+
+To create multiple subcommands
+
+```puppet
+    remctl::server::command { 'kadmin_cpw':
+        command         => 'kadmin',
+        subcommand      => 'change_password',
+        executable      => '/usr/sbin/kadmin',
+        options         => {
+            'help'      => '--help',
+            'summary'   => '--summary',
+        },
+        acls            => ['ANYUSER']
+    }
+
+    remctl::server::command { 'kadmin_lock':
+        command         => 'kadmin',
+        subcommand      => 'lock_user',
+        executable      => '/usr/sbin/kadmin',
+        options         => {
+            'help'      => '--help',
+            'summary'   => '--summary',
+        },
+        acls            => ['princ:admin@EXAMPLE.ORG']
     }
 ```
 
@@ -259,3 +285,5 @@ Array of acls as desribed in `remctld(8)` `acl` section.
 ##Limitations
 
 This module currently only work on `RedHat` and `Debian` os families and expects that the `remctl*` packages are available with your current repository configuration.
+
+All xinetd options were not exposed through the `remctl::server` class. If you need a specific xinetd option, please fill a bug report and we'll add it.
