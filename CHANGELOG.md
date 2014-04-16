@@ -1,3 +1,8 @@
+#### 2014-04-16 - Remi Ferrand <puppet@cc.in2p3.fr> - 1.1.1
+##### Bugfixes
+* Fix duplicate package declaration on RedHat osfamily when client and server were
+defined (Thank you A. Ntaflos for reporting this)
+
 #### 2014-04-11 - Remi Ferrand <puppet@cc.in2p3.fr> - 1.1.0
 ##### New features
 * subcommands array

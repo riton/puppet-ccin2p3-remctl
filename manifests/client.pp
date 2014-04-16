@@ -9,7 +9,9 @@ class remctl::client (
     validate_string($package_ensure)
     validate_string($package_name)
 
-    package { $package_name:
-        ensure      => $package_ensure,
+    if ! defined(Package[$package_name]) {
+        package { $package_name:
+            ensure      => $package_ensure,
+        }
     }
 }
