@@ -1,0 +1,11 @@
+fixtures:
+  repositories:
+    stdlib:
+      repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    xinetd:
+      repo: "https://github.com/puppetlabs/puppetlabs-xinetd.git"
+    # Use latest version of rspec puppet for coverage
+    rspec-puppet:
+            repo: "https://github.com/rodjek/rspec-puppet.git"
+  symlinks:
+    remctl: "#{source_dir}"

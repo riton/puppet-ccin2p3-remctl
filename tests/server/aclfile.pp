@@ -1,7 +1,7 @@
 
 class {'remctl::server': }
 
-remctl::server::aclfile {'acl_file1': 
+remctl::server::aclfile {'acl_file1':
     acls            => ['princ:test@TEST.REALM.ORG']
 }
 

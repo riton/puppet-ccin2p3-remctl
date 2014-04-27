@@ -51,13 +51,16 @@ This module provides simplified way to deploy server, command and ACL files.
 To install remctl client
 
 ```puppet
-    class { 'remctl::client': }
+    class { 'remctl::client':
+        ensure      => present
+    }
 ```
 
 To install remctl server
 
 ```puppet
     class { 'remctl::server':
+        ensure          => present,
         debug           => false,
         only_from       => [ '0.0.0.0' ],
         disable         => false
@@ -67,6 +70,7 @@ To create an ACL file
 
 ```puppet
     remctl::server::aclfile { 'administrators':
+        ensure          => present,
         acls            => ['pcre:.+/admin@TEST.REALM.ORG']
     }
 ```
@@ -81,7 +85,8 @@ To create a new puppet managed command
         options         => {
             'help'  => '--help',
         },
-        acls            => ["file:${remctl::server::acldir}/administrators"]
+        acls            => ["file:${remctl::server::acldir}/administrators"],
+        ensure          => present,
     }
 ```
 
@@ -128,16 +133,16 @@ This class is used to install remctl client.
 
 **Parameters within `remctl::client`:**
 
+#####`ensure`
+
+`ensure` property, passed to puppet `package` type.
+
 #####`package_name`
 
 Name of package to be installed. Defaults to:
 
 * `remctl` on RedHat `osfamily`
 * `remctl-client` on Debian `osfamily`
-
-#####`package_ensure`
-
-`ensure` property, passed to puppet `package` type.
 
 ####Class: `remctl::server`
 
@@ -146,6 +151,9 @@ This class MUST be declared in order to be able to use ACL or command types.
 
 **Parameters within `remctl::server`:**
 
+#####`ensure`
+`ensure` property, passed to `xinetd::service` and `package`. Defaults to `present`.
+
 #####`package_name`
 
 Name of package to be installed. Defaults to:
@@ -153,21 +161,13 @@ Name of package to be installed. Defaults to:
 * `remctl` on RedHat `osfamily`
 * `remctl-server` on Debian `osfamily`
 
-#####`package_ensure`
-
-`ensure` property, passed to puppet `package` type.
-
-#####`ensure`
-
-`ensure` property, passed to `xinetd::service`.
-
 #####`debug`
 
-Enable verbose debug logging (see `remctld(8)` `-d` option). Defaults to 'false'.
+Enable verbose debug logging (see `remctld(8)` `-d` option). Defaults to `false`.
 
 #####`disable`
 
-Disable xinetd service. Defaults to 'true'.
+Disable xinetd service. Defaults to `true`.
 
 #####`krb5_service`
 
@@ -191,26 +191,36 @@ Group to run xinetd service as. Defaults to `root`.
 
 #####`manage_user`
 
-Should we ensure that `user` is present.
-
-#####`manage_group`
-
-Should we ensure that `group` is present.
+Should we ensure that `user` and `group` are present / absent.
+If `manage_user` is set to `true` and user or group is root or zero, this module behaves like if `manage_user` was set to `false`.
 
 #####`only_from`
 
-List of resources that are allowed to access this xinetd service (see `xinetd.conf(5)` `only_from` option for format). Defaults to `0.0.0.0`.
+List of resources that are allowed to access this xinetd service (see `xinetd.conf(5)` `only_from` option for format). Defaults to `[ '0.0.0.0' ]`.
+
+#####`no_access`
+
+List of resources that are not allowed to access this xinetd service (see `xinetd.conf(5)` `no_access` option for format). Defaults to `[]`.
+
+#####`bind`
+
+Allows a service to be bound to a specific interface on the machine (see `xinetd.conf(5)` `bind` or `interface` option for format). Defaults to `undef`.
 
 ####Defined Type: `remctl::server::aclfile`
 
 remctl ACL file resource type.
 This class should be used to describe a set of resources that will be granted access to a set of remctl commands.
+Class `remctl::server` must have been included before using this defined type.
 
 **Parameters within `remctl::server::aclfile`:**
 
+#####`ensure`
+
+State of the aclfile resource. Defaults to `present`.
+
 #####`acldir`
 
-Directory where we want to save aclfile. MUST be an absolute path. Defaults to `/etc/remctl.d`.
+Directory where we want to save aclfile. This must be an absolute path. Defaults to `/etc/remctl.d`.
 
 #####`acls`
 
@@ -260,6 +270,7 @@ Array of acls as desribed in `remctld(8)` `acl` section.
         acls        => ['princ:testuser@TEST.REALM.ORG'],
     }
 ```
+
 
 ##Reference
 

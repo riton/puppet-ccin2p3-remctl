@@ -1,3 +1,20 @@
+#### 2014-05-16 - Remi Ferrand <puppet@cc.in2p3.fr> - 1.2.0
+##### Bugfixes
+* Fixed duplicate resource declaration when client is included before server 
+(https://github.com/ccin2p3/puppet-ccin2p3-remctl/issues/10).
+* Fixed bug causing `krb5_keytab` to be ignored when specified.
+
+##### New features
+* Enforce common interface and introduce the `ensure` parameter for all classes that allows one to cleanup
+classes, packages, commands and acls.
+* Add more xinetd security restriction options to remctl `xinetd::service` (xinetd `bind` and `no_access`).
+
+##### Incompatibility with previous version
+ * Enforcing parameter `ensure` to all classes requires us to rename old parameters (`package_ensure` and so on).
+ * In `remctl::server::command`, parameter `acls` is now mandatory (old behavior was irrelevant).
+ * In `remctl::server`, parameter `manage_group` was removed. Group is now managed if `manage_user` is
+set to ̀`true`.
+
 #### 2014-04-16 - Remi Ferrand <puppet@cc.in2p3.fr> - 1.1.1
 ##### Bugfixes
 * Fix duplicate package declaration on RedHat osfamily when client and server were
