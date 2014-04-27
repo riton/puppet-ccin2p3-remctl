@@ -5,6 +5,20 @@ oses_specs = @oses_specs
 
 describe 'remctl::client', :type => :class do
 
+    context 'running on unsupported osfamily' do
+
+        let :facts do {
+            :osfamily       => 'something-unsupported',
+        } end
+
+        it 'should fail' do
+            expect {
+                should compile
+            }.to raise_error(Puppet::Error, /remctl: module does not support osfamily #{facts[:osfamily]}/)
+        end
+
+    end # context running on unsupported osfamily
+
     oses_specs.each do |osname, specs|
 
         describe "running on #{osname}" do
@@ -94,6 +108,8 @@ describe 'remctl::client', :type => :class do
             end # describe #package_name
 
         end # describe running on
+
+        break
 
     end # oses_facts.each
 

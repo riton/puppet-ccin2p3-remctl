@@ -3,7 +3,7 @@ class remctl::server (
     $ensure             = 'present',
     $debug              = $remctl::params::debug,
     $disable            = $remctl::params::disable,
-    $krb5_service       = undef,
+    $krb5_service       = 'undef',
     $krb5_keytab        = $remctl::params::krb5_keytab,
     $port               = $remctl::params::port,
     $user               = 'root',
@@ -12,7 +12,6 @@ class remctl::server (
     $manage_group       = false,
     $only_from          = [ '0.0.0.0' ],
 
-    $package_ensure     = 'latest',
     $package_name       = $remctl::params::server_package_name
 ) inherits remctl::params {
 
@@ -33,8 +32,13 @@ class remctl::server (
     validate_string($krb5_keytab)
     validate_re($port, '^\d+$')
     validate_array($only_from)
-    validate_string($package_ensure)
     validate_string($package_name)
+
+    #
+    # Computed values
+    #
+    $_directories_ensure = $ensure ? { 'present' => 'directory', 'absent' => 'absent' }
+    $_files_ensure = $ensure ? { 'present' => 'file', 'absent' => 'absent' }
 
     if ($port == $remctl::params::port) {
         $_xinetd_service_type = undef
@@ -50,7 +54,7 @@ class remctl::server (
         $_debug = ""
     }
 
-    if $krb5_service {
+    if $krb5_service != 'undef' {
         $_krb5_service = "-s ${krb5_service} "
     }
     else {
@@ -58,10 +62,17 @@ class remctl::server (
     }
 
     if $conffile {
-        $_conffile = "-f ${conffile}"
+        $_conffile = "-f ${conffile} "
     }
     else {
         $_conffile = ""
+    }
+
+    if $krb5_keytab {
+        $_krb5_keytab = "-k ${krb5_keytab} "
+    }
+    else {
+        $_krb5_keytab = ""
     }
 
     if $only_from {
@@ -79,18 +90,18 @@ class remctl::server (
     }
 
     if $manage_group {
-        if $group != "root" {
+        if $group != "root" and $group != 0 {
             group { $group:
-                ensure      => present,
+                ensure      => $ensure,
                 notify      => User[$user]
             }
         }
     }
 
     if $manage_user {
-        if $user != "root" {
+        if $user != "root" and $user != 0 {
             user { $user:
-                ensure      => present,
+                ensure      => $ensure,
                 comment     => 'remctl user',
                 gid         => $group,
                 notify      => Package[$package_name]
@@ -99,13 +110,13 @@ class remctl::server (
     }
 
     package { $package_name:
-        ensure      => $package_ensure,
+        ensure      => $ensure,
     }
 
     ->
 
     file { $basedir:
-        ensure      => directory,
+        ensure      => $_directories_ensure,
         mode        => '0750',
         owner       => $user,
         group       => $group
@@ -114,7 +125,7 @@ class remctl::server (
     ->
 
     file { $confdir:
-        ensure      => directory,
+        ensure      => $_directories_ensure,
         mode        => '0750',
         owner       => $user,
         group       => $group
@@ -123,7 +134,7 @@ class remctl::server (
     ->
 
     file { $acldir:
-        ensure      => directory,
+        ensure      => $_directories_ensure,
         mode        => '0750',
         owner       => $user,
         group       => $group
@@ -132,7 +143,7 @@ class remctl::server (
     ->
 
     file { $conffile:
-        ensure      => file,
+        ensure      => $_files_ensure,
         content     => template("remctl/remctl.conf"),
         mode        => '0640',
         owner       => $user,
@@ -163,7 +174,7 @@ class remctl::server (
         port            => $port, # Dupplicate with /etc/services info but xinetd::service requires it
         service_type    => $_xinetd_service_type,
         server          => $server_bin,
-        server_args     => "${_debug}${_krb5_service}${_conffile}",
+        server_args     => "${_debug}${_krb5_keytab}${_krb5_service}${_conffile}",
         disable         => $_disable,
         protocol        => 'tcp',
         socket_type     => 'stream',
