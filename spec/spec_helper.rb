@@ -5,26 +5,43 @@ require 'rubygems'
 require 'rspec-puppet'
 require 'puppetlabs_spec_helper/module_spec_helper'
 
+@common_specs = {
+    :basedir                    => '/etc/remctl',
+    :confdir                    => '/etc/remctl/conf.d',
+    :conffile                   => '/etc/remctl/remctl.conf',
+    :acldir                     => '/etc/remctl/acl',
+
+    :krb5_keytab                => '/etc/krb5.keytab',
+    :server_bin                 => '/usr/sbin/remctld',
+
+    :debug                      => false,
+    :port                       => 4373,
+    :disable                    => true
+}
+
 @oses_specs = {
 
-    'RedHat'            => {
+    'RedHat'            => @common_specs.merge({
         :operatingsystem            => 'RedHat',
         :osfamily                   => 'RedHat',
 
         :remctl_client_package      => 'remctl',
-    },
+        :remctl_server_package      => 'remctl',
+    }),
 
-    'Scientific Linux'  => {
+    'Scientific Linux'  => @common_specs.merge({
         :operatingsystem            => 'Scientific',
         :osfamily                   => 'RedHat',
 
         :remctl_client_package      => 'remctl',
-    },
+        :remctl_server_package      => 'remctl',
+    }),
 
-    'Debian'            => {
+    'Debian'            => @common_specs.merge({
         :operatingsystem            => 'Debian',
         :osfamily                   => 'Debian',
 
         :remctl_client_package      => 'remctl-client',
-    },
+        :remctl_server_package      => 'remctl-server',
+    }),
 }
