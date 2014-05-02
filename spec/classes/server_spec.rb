@@ -48,6 +48,14 @@ describe 'remctl::server', :type => :class do
                 :operatingsystem        => specs[:operatingsystem]
             } end
 
+            describe 'xinetd interaction' do
+
+                it 'should include Xinetd' do
+                    should contain_class('Xinetd')
+                end
+
+            end # describe 'xinetd interaction'
+
             describe '#ensure' do
 
                 context 'with default values' do
