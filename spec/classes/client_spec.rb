@@ -107,9 +107,28 @@ describe 'remctl::client', :type => :class do
 
             end # describe #package_name
 
-        end # describe running on
+            context 'with server also declared' do
 
-        break
+                let :pre_condition do
+                    "
+                    class { 'remctl::server':
+                        ensure  => present
+                    }
+                    "
+                end
+
+                let :params do {
+                    :ensure     => 'present'
+                } end
+
+                # https://github.com/ccin2p3/puppet-ccin2p3-remctl/issues/2
+                it 'shouldn\'t declare package twice' do
+                    should compile
+                end
+
+            end # context 'with server also declared'
+
+        end # describe running on
 
     end # oses_facts.each
 
