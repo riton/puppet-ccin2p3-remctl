@@ -153,21 +153,17 @@ Name of package to be installed. Defaults to:
 * `remctl` on RedHat `osfamily`
 * `remctl-server` on Debian `osfamily`
 
-#####`package_ensure`
-
-`ensure` property, passed to puppet `package` type.
-
 #####`ensure`
 
-`ensure` property, passed to `xinetd::service`.
+`ensure` property, passed to `xinetd::service` and `package`. Defaults to `present`.
 
 #####`debug`
 
-Enable verbose debug logging (see `remctld(8)` `-d` option). Defaults to 'false'.
+Enable verbose debug logging (see `remctld(8)` `-d` option). Defaults to `false`.
 
 #####`disable`
 
-Disable xinetd service. Defaults to 'true'.
+Disable xinetd service. Defaults to `true`.
 
 #####`krb5_service`
 
@@ -191,15 +187,20 @@ Group to run xinetd service as. Defaults to `root`.
 
 #####`manage_user`
 
-Should we ensure that `user` is present.
-
-#####`manage_group`
-
-Should we ensure that `group` is present.
+Should we ensure that `user` and `group` are present / absent.
+If `manage_user` is set to `true` and user or group is root or zero, this module behaves like if `manage_user` was set to `false`.
 
 #####`only_from`
 
-List of resources that are allowed to access this xinetd service (see `xinetd.conf(5)` `only_from` option for format). Defaults to `0.0.0.0`.
+List of resources that are allowed to access this xinetd service (see `xinetd.conf(5)` `only_from` option for format). Defaults to `[ '0.0.0.0' ]`.
+
+#####`no_access`
+
+List of resources that arenot  allowed to access this xinetd service (see `xinetd.conf(5)` `no_access` option for format). Defaults to `[]`.
+
+#####`bind`
+
+Allows a service to be bound to a specific interface on the machine (see `xinetd.conf(5)` `bind` or `interface` option for format). Defaults to `undef`.
 
 ####Defined Type: `remctl::server::aclfile`
 

@@ -9,10 +9,13 @@ class remctl::server (
     $user               = 'root',
     $group              = 'root',
     $manage_user        = false,
-    $manage_group       = false,
     $only_from          = [ '0.0.0.0' ],
+    $no_access          = [],
+    $bind               = undef,
 
-    $package_name       = $remctl::params::server_package_name
+    $package_name       = $remctl::params::server_package_name,
+
+
 ) inherits remctl::params {
 
     require stdlib
@@ -27,11 +30,12 @@ class remctl::server (
     validate_bool($debug)
     validate_bool($disable)
     validate_bool($manage_user)
-    validate_bool($manage_group)
     validate_string($krb5_service)
     validate_string($krb5_keytab)
     validate_re($port, '^\d+$')
     validate_array($only_from)
+    validate_array($no_access)
+    validate_string($bind)
     validate_string($package_name)
 
     #
@@ -82,6 +86,13 @@ class remctl::server (
         $_only_from = undef
     }
 
+    if size($no_access) > 0 {
+        $_no_access = join($no_access, " ")
+    }
+    else {
+        $_no_access = undef
+    }
+
     if $disable {
         $_disable = "yes"
     }
@@ -89,21 +100,25 @@ class remctl::server (
         $_disable = "no"
     }
 
-    if $manage_group {
+    if $manage_user {
+
         if $group != "root" and $group != 0 {
             group { $group:
                 ensure      => $ensure,
-                notify      => User[$user]
             }
-        }
-    }
 
-    if $manage_user {
+            $_user_require = [ Group[$group] ]
+        }
+        else {
+            $_user_require = undef
+        }
+
         if $user != "root" and $user != 0 {
             user { $user:
                 ensure      => $ensure,
                 comment     => 'remctl user',
                 gid         => $group,
+                require     => $_user_require,
                 notify      => Package[$package_name]
             }
         }
@@ -180,7 +195,9 @@ class remctl::server (
         socket_type     => 'stream',
         user            => $user,
         group           => $group,
-        only_from       => $_only_from
+        only_from       => $_only_from,
+        no_access       => $_no_access,
+        bind            => $bind
     }
 }
 
