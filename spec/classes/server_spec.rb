@@ -665,8 +665,6 @@ describe 'remctl::server', :type => :class do
 
         end # describe running on
 
-        break
-
     end # oses_facts.each
 
 end

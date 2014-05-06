@@ -33,14 +33,6 @@ require 'puppetlabs_spec_helper/module_spec_helper'
         :remctl_server_package      => 'remctl',
     }),
 
-    'Scientific Linux'  => @common_specs.merge({
-        :operatingsystem            => 'Scientific',
-        :osfamily                   => 'RedHat',
-
-        :remctl_client_package      => 'remctl',
-        :remctl_server_package      => 'remctl',
-    }),
-
     'Debian'            => @common_specs.merge({
         :operatingsystem            => 'Debian',
         :osfamily                   => 'Debian',

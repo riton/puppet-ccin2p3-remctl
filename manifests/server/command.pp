@@ -2,8 +2,9 @@ define remctl::server::command (
     $command,
     $subcommand,
     $executable,
+    $acls,
     $options            = {},
-    $acls               = []
+    $ensure             = 'present'
 ) {
 
     if ! defined(Class['remctl::server']) {
@@ -15,11 +16,17 @@ define remctl::server::command (
     validate_absolute_path($executable)
     validate_hash($options)
     validate_array($acls)
+    validate_re($ensure, '^(present|absent)$')
 
     $cmdfile = "${remctl::server::confdir}/${name}"
+    $_files_ensure = $ensure ? { 'present' => 'file', 'absent' => 'absent' }
+
+    if (!$acls or size($acls) == 0) {
+        fail("Missing acls for commmand '${command}/${subcommand}'")
+    }
 
     file { $cmdfile:
-        ensure      => file,
+        ensure      => $_files_ensure,
         mode        => '0440',
         owner       => $remctl::server::user,
         group       => $remctl::server::group,
