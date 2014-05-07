@@ -124,11 +124,12 @@ class remctl::server (
         }
     }
 
-    package { $package_name:
-        ensure      => $ensure,
+    if ! defined(Package[$package_name]) {
+        package { $package_name:
+            ensure      => $ensure,
+            before      => File[$basedir]
+        }
     }
-
-    ->
 
     file { $basedir:
         ensure      => $_directories_ensure,
