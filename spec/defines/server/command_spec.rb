@@ -41,7 +41,7 @@ describe 'remctl::server::command', :type => :define do
         it 'should fail' do
             expect {
                 should compile
-            }.to raise_error(Puppet::Error, /You must include the remctl::server class before/)
+            }.to raise_error(/You must include the remctl::server class before/)
         end
     end # context 'without remctl::server'
 
@@ -70,7 +70,7 @@ describe 'remctl::server::command', :type => :define do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not an absolute path/)
+                        }.to raise_error(/ is not an absolute path/)
                     end
                 end # context 'with bad executable'
 
@@ -85,7 +85,7 @@ describe 'remctl::server::command', :type => :define do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, /Missing acls for commmand 'somecmd\/subcmd'/)
+                        }.to raise_error(/Missing acls for commmand 'somecmd\/subcmd'/)
                     end
                 end # context 'with empty acls'
 
@@ -148,7 +148,7 @@ describe 'remctl::server::command', :type => :define do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, /\s+false does not match\s+/)
+                        }.to raise_error(/\s+false does not match\s+/)
                     end
 
                 end # context with bad value

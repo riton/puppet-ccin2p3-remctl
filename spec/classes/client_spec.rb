@@ -14,7 +14,7 @@ describe 'remctl::client', :type => :class do
         it 'should fail' do
             expect {
                 should compile
-            }.to raise_error(Puppet::Error, /remctl: module does not support osfamily #{facts[:osfamily]}/)
+            }.to raise_error(/remctl: module does not support osfamily #{facts[:osfamily]}/m)
         end
 
     end # context running on unsupported osfamily
@@ -54,7 +54,7 @@ describe 'remctl::client', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not a string/)
+                        }.to raise_error(/ is not a string/)
                     end
 
                 end # context with bad value
@@ -91,7 +91,7 @@ describe 'remctl::client', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not a string/)
+                        }.to raise_error(/ is not a string/)
                     end
                 end # context with bad value
 

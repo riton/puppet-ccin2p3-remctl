@@ -135,7 +135,7 @@ Name of package to be installed. Defaults to:
 * `remctl` on RedHat `osfamily`
 * `remctl-client` on Debian `osfamily`
 
-#####`package_ensure`
+#####`ensure`
 
 `ensure` property, passed to puppet `package` type.
 

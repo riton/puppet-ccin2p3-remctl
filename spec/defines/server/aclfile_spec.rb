@@ -33,7 +33,7 @@ describe 'remctl::server::aclfile', :type => :define do
         it 'should fail' do
             expect {
                 should compile
-            }.to raise_error(Puppet::Error, /You must include the remctl::server class before/)
+            }.to raise_error(/You must include the remctl::server class before/)
         end
     end # context 'without remctl::server'
 
@@ -70,7 +70,7 @@ describe 'remctl::server::aclfile', :type => :define do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, /\s+false does not match\s+/)
+                        }.to raise_error(/\s+false does not match\s+/)
                     end
 
                 end # context with bad value
@@ -127,7 +127,7 @@ describe 'remctl::server::aclfile', :type => :define do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not an Array/)
+                        }.to raise_error(/ is not an Array/)
                     end
                 end # context 'with bad value'
 
@@ -143,7 +143,7 @@ describe 'remctl::server::aclfile', :type => :define do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not an absolute path/)
+                        }.to raise_error(/ is not an absolute path/)
                     end
                 end # context 'with bad value'
 

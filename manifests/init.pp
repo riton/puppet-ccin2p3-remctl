@@ -1,6 +1,8 @@
-
+#
+# Base remctl class
+#
 class remctl (
-) inherits remctl::params {
+) inherits params {
 
 }
 

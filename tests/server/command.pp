@@ -14,7 +14,7 @@ remctl::server::command { 'kadmin_cpw':
     executable      => '/usr/sbin/kadmin',
     options         => {
         help      => '--help',
-        'summary'   => '--summary',
+        'summary' => '--summary',
     },
     acls            => ['ANYUSER']
 }

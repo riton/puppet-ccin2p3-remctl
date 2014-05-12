@@ -4,6 +4,9 @@ $LOAD_PATH.unshift File.join(dir, 'lib')
 require 'rubygems'
 require 'rspec-puppet'
 require 'puppetlabs_spec_helper/module_spec_helper'
+require 'coveralls'
+
+Coveralls.wear!
 
 # RSpec.configure do |c|
 #     c.filter_run :focus => true

@@ -30,7 +30,7 @@ describe 'remctl::server', :type => :class do
         it 'should fail' do
             expect {
                 should compile
-            }.to raise_error(Puppet::Error, /remctl: module does not support osfamily #{facts[:osfamily]}/)
+            }.to raise_error(/remctl: module does not support osfamily #{facts[:osfamily]}/)
         end
 
     end # context running on unsupported osfamily
@@ -120,7 +120,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not a string/)
+                        }.to raise_error(/ is not a string/)
                     end
 
                 end # context with bad value
@@ -191,7 +191,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not a boolean/)
+                        }.to raise_error(/ is not a boolean/)
                     end
 
                 end # context with bad value
@@ -232,7 +232,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not a boolean/)
+                        }.to raise_error(/ is not a boolean/)
                     end
 
                 end # context with bad value
@@ -273,7 +273,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not a string/)
+                        }.to raise_error(/ is not a string/)
                     end
 
                 end # context with bad value
@@ -314,7 +314,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not a string/)
+                        }.to raise_error(/ is not a string/)
                     end
 
                 end # context with bad value
@@ -373,7 +373,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, /"NaN" does not match/)
+                        }.to raise_error(/"NaN" does not match/)
                     end
 
                 end # context with bad value
@@ -435,7 +435,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not a string/)
+                        }.to raise_error(/ is not a string/)
                     end
 
                 end # context with bad user value
@@ -448,7 +448,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not a string/)
+                        }.to raise_error(/ is not a string/)
                     end
 
                 end # context with bad group value
@@ -461,7 +461,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not a boolean/)
+                        }.to raise_error(/ is not a boolean/)
                     end
 
                 end # context with manage_user value
@@ -559,7 +559,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not an Array/)
+                        }.to raise_error(/ is not an Array/)
                     end
 
                 end # context with bad value
@@ -601,7 +601,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not an Array/)
+                        }.to raise_error(/ is not an Array/)
                     end
 
                 end # context with bad value
@@ -643,7 +643,7 @@ describe 'remctl::server', :type => :class do
                     it 'should raise error' do
                         expect {
                             should compile
-                        }.to raise_error(Puppet::Error, / is not a string/)
+                        }.to raise_error(/ is not a string/)
                     end
 
                 end # context with bad value

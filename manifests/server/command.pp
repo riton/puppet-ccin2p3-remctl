@@ -30,7 +30,7 @@ define remctl::server::command (
         mode        => '0440',
         owner       => $remctl::server::user,
         group       => $remctl::server::group,
-        content     => template("remctl/server/command.erb")
+        content     => template('remctl/server/command.erb')
     }
 }
 

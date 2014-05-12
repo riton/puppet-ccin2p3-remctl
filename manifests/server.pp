@@ -1,4 +1,6 @@
-
+#
+# remctl server class
+#
 class remctl::server (
     $ensure             = 'present',
     $debug              = $remctl::params::debug,
@@ -16,7 +18,7 @@ class remctl::server (
     $package_name       = $remctl::params::server_package_name,
 
 
-) inherits remctl::params {
+) inherits params {
 
     require stdlib
 
@@ -52,57 +54,57 @@ class remctl::server (
     }
 
     if $debug {
-        $_debug = "-d "
+        $_debug = '-d '
     }
     else {
-        $_debug = ""
+        $_debug = ''
     }
 
     if $krb5_service != 'undef' {
         $_krb5_service = "-s ${krb5_service} "
     }
     else {
-        $_krb5_service = ""
+        $_krb5_service = ''
     }
 
-    if $conffile {
-        $_conffile = "-f ${conffile} "
+    if $remctl::params::conffile {
+        $_conffile = "-f ${remctl::params::conffile} "
     }
     else {
-        $_conffile = ""
+        $_conffile = ''
     }
 
     if $krb5_keytab {
         $_krb5_keytab = "-k ${krb5_keytab} "
     }
     else {
-        $_krb5_keytab = ""
+        $_krb5_keytab = ''
     }
 
     if $only_from {
-        $_only_from = join($only_from, " ")
+        $_only_from = join($only_from, ' ')
     }
     else {
         $_only_from = undef
     }
 
     if size($no_access) > 0 {
-        $_no_access = join($no_access, " ")
+        $_no_access = join($no_access, ' ')
     }
     else {
         $_no_access = undef
     }
 
     if $disable {
-        $_disable = "yes"
+        $_disable = 'yes'
     }
     else {
-        $_disable = "no"
+        $_disable = 'no'
     }
 
     if $manage_user {
 
-        if $group != "root" and $group != 0 {
+        if $group != 'root' and $group != 0 {
             group { $group:
                 ensure      => $ensure,
             }
@@ -113,7 +115,7 @@ class remctl::server (
             $_user_require = undef
         }
 
-        if $user != "root" and $user != 0 {
+        if $user != 'root' and $user != 0 {
             user { $user:
                 ensure      => $ensure,
                 comment     => 'remctl user',
@@ -127,11 +129,11 @@ class remctl::server (
     if ! defined(Package[$package_name]) {
         package { $package_name:
             ensure      => $ensure,
-            before      => File[$basedir]
+            before      => File[$remctl::params::basedir]
         }
     }
 
-    file { $basedir:
+    file { $remctl::params::basedir:
         ensure      => $_directories_ensure,
         mode        => '0750',
         owner       => $user,
@@ -140,7 +142,7 @@ class remctl::server (
 
     ->
 
-    file { $confdir:
+    file { $remctl::params::confdir:
         ensure      => $_directories_ensure,
         mode        => '0750',
         owner       => $user,
@@ -149,7 +151,7 @@ class remctl::server (
 
     ->
 
-    file { $acldir:
+    file { $remctl::params::acldir:
         ensure      => $_directories_ensure,
         mode        => '0750',
         owner       => $user,
@@ -158,9 +160,9 @@ class remctl::server (
 
     ->
 
-    file { $conffile:
+    file { $remctl::params::conffile:
         ensure      => $_files_ensure,
-        content     => template("remctl/remctl.conf"),
+        content     => template('remctl/remctl.conf'),
         mode        => '0640',
         owner       => $user,
         group       => $group,
@@ -177,7 +179,7 @@ class remctl::server (
         context     => '/files/etc/services',
         changes     => [
             'defnode remctltcp service-name[.="remctl"][protocol = "tcp"] remctl',
-            "set \$remctltcp/port $remctl::params::port",
+            "set \$remctltcp/port ${remctl::params::port}",
             'set $remctltcp/protocol tcp',
             'set $remctltcp/#comment "remote authenticated command execution"',
         ],
@@ -189,7 +191,7 @@ class remctl::server (
         ensure          => $ensure,
         port            => $port, # Dupplicate with /etc/services info but xinetd::service requires it
         service_type    => $_xinetd_service_type,
-        server          => $server_bin,
+        server          => $remctl::params::server_bin,
         server_args     => "${_debug}${_krb5_keytab}${_krb5_service}${_conffile}",
         disable         => $_disable,
         protocol        => 'tcp',

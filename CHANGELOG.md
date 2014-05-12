@@ -1,3 +1,16 @@
+#### 2014-05-08 - Remi Ferrand <puppet@cc.in2p3.fr> - 1.2.0
+##### Bugfixes
+* 
+
+##### New features
+* Enforce common interface for all classes and introduce the `ensure` parameter for all classes that allows one to cleanup
+classes, packages, commands and acls.
+
+##### Incompatibility with previous version
+* Enforcing parameter `ensure` to all classes requires us to rename old parameters.
+* In `remctl::server::command`, parameter `acls` is now mandatory (old behavior was irrelevant).
+
+
 #### 2014-04-16 - Remi Ferrand <puppet@cc.in2p3.fr> - 1.1.1
 ##### Bugfixes
 * Fix duplicate package declaration on RedHat osfamily when client and server were
