@@ -4,9 +4,11 @@ $LOAD_PATH.unshift File.join(dir, 'lib')
 require 'rubygems'
 require 'rspec-puppet'
 require 'puppetlabs_spec_helper/module_spec_helper'
-require 'coveralls'
 
-Coveralls.wear!
+if ! RUBY_VERSION =~ /1.8/ do
+    require 'coveralls'
+    Coveralls.wear!
+end
 
 # RSpec.configure do |c|
 #     c.filter_run :focus => true
