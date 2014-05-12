@@ -5,7 +5,7 @@ require 'rubygems'
 require 'rspec-puppet'
 require 'puppetlabs_spec_helper/module_spec_helper'
 
-if ! RUBY_VERSION =~ /1.8/
+unless RUBY_VERSION =~ /1.8/
     require 'coveralls'
     Coveralls.wear!
 end

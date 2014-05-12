@@ -11,7 +11,7 @@ group :development, :test do
     gem 'rspec-puppet', '>=1.0.1', :require => false
     gem 'puppetlabs_spec_helper',  :require => false
     gem 'puppet-lint',             :require => false
-    if ! RUBY_VERSION =~ /1.8/ 
+    unless RUBY_VERSION =~ /1.8/ 
         gem 'coveralls',               :require => false
     end
 end
