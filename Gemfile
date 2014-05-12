@@ -8,7 +8,8 @@ source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
 group :development, :test do
     gem 'rake', '10.1.1',          :require => false
-    gem 'rspec-puppet', '>=1.0.1', :require => false
+    gem 'rspec-puppet',            :git => 'https://github.com/rodjek/rspec-puppet.git'
+    # gem 'rspec-puppet', '>=1.0.1', :require => false
     gem 'puppetlabs_spec_helper',  :require => false
     gem 'puppet-lint',             :require => false
     unless RUBY_VERSION =~ /1.8/ 

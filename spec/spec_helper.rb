@@ -1,20 +1,19 @@
 dir = File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH.unshift File.join(dir, 'lib')
 
+# Use latest version of rspec-puppet
+$LOAD_PATH.unshift File.join(dir, 'fixtures/modules/rspec-puppet/lib')
+
 require 'rubygems'
 require 'rspec-puppet'
 require 'puppetlabs_spec_helper/module_spec_helper'
 
 unless RUBY_VERSION =~ /1.8/
     require 'simplecov'
-    require 'coveralls'
 
-    SimpleCov.formatter = Coveralls::SimpleCov::Formatter
     SimpleCov.start do
         add_filter "/fixtures/"
     end
-
-    Coveralls.wear!
 end
 
 # RSpec.configure do |c|
