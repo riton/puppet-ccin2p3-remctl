@@ -6,8 +6,10 @@ require 'rspec-puppet'
 require 'puppetlabs_spec_helper/module_spec_helper'
 
 unless RUBY_VERSION =~ /1.8/
+    require 'simplecov'
     require 'coveralls'
 
+    SimpleCov.formatter = Coveralls::SimpleCov::Formatter
     SimpleCov.start do
         add_filter "/fixtures/"
     end
