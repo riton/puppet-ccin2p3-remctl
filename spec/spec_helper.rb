@@ -7,6 +7,11 @@ require 'puppetlabs_spec_helper/module_spec_helper'
 
 unless RUBY_VERSION =~ /1.8/
     require 'coveralls'
+
+    SimpleCov.start do
+        add_filter "/fixtures/"
+    end
+
     Coveralls.wear!
 end
 
