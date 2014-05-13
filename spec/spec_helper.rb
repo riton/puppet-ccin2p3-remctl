@@ -8,12 +8,14 @@ require 'rubygems'
 require 'rspec-puppet'
 require 'puppetlabs_spec_helper/module_spec_helper'
 
-unless RUBY_VERSION =~ /1.8/
+begin
     require 'simplecov'
 
     SimpleCov.start do
-        add_filter "/fixtures/"
+        add_filter 'fixtures/modules/'
     end
+rescue Exception => e
+    warn 'Code coverage has been disabled'
 end
 
 # RSpec.configure do |c|
