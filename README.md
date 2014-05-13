@@ -128,16 +128,16 @@ This class is used to install remctl client.
 
 **Parameters within `remctl::client`:**
 
+#####`ensure`
+
+`ensure` property, passed to puppet `package` type.
+
 #####`package_name`
 
 Name of package to be installed. Defaults to:
 
 * `remctl` on RedHat `osfamily`
 * `remctl-client` on Debian `osfamily`
-
-#####`ensure`
-
-`ensure` property, passed to puppet `package` type.
 
 ####Class: `remctl::server`
 
@@ -146,16 +146,15 @@ This class MUST be declared in order to be able to use ACL or command types.
 
 **Parameters within `remctl::server`:**
 
+#####`ensure`
+`ensure` property, passed to `xinetd::service` and `package`. Defaults to `present`.
+
 #####`package_name`
 
 Name of package to be installed. Defaults to:
 
 * `remctl` on RedHat `osfamily`
 * `remctl-server` on Debian `osfamily`
-
-#####`ensure`
-
-`ensure` property, passed to `xinetd::service` and `package`. Defaults to `present`.
 
 #####`debug`
 
@@ -196,7 +195,7 @@ List of resources that are allowed to access this xinetd service (see `xinetd.co
 
 #####`no_access`
 
-List of resources that arenot  allowed to access this xinetd service (see `xinetd.conf(5)` `no_access` option for format). Defaults to `[]`.
+List of resources that are not allowed to access this xinetd service (see `xinetd.conf(5)` `no_access` option for format). Defaults to `[]`.
 
 #####`bind`
 
@@ -206,12 +205,17 @@ Allows a service to be bound to a specific interface on the machine (see `xinetd
 
 remctl ACL file resource type.
 This class should be used to describe a set of resources that will be granted access to a set of remctl commands.
+Class `remctl::server` must have been included before using this defined type.
 
 **Parameters within `remctl::server::aclfile`:**
 
+#####`ensure`
+
+State of the aclfile resource. Defaults to `present`.
+
 #####`acldir`
 
-Directory where we want to save aclfile. MUST be an absolute path. Defaults to `/etc/remctl.d`.
+Directory where we want to save aclfile. This must be an absolute path. Defaults to `/etc/remctl.d`.
 
 #####`acls`
 
@@ -261,6 +265,7 @@ Array of acls as desribed in `remctld(8)` `acl` section.
         acls        => ['princ:testuser@TEST.REALM.ORG'],
     }
 ```
+
 
 ##Reference
 
