@@ -1,3 +1,4 @@
 *.pyc
 pkg
 spec/fixtures
+coverage

@@ -13,7 +13,7 @@ describe 'remctl::client', :type => :class do
 
         it 'should fail' do
             expect {
-                should compile
+                should compile.with_all_deps
             }.to raise_error(/remctl: module does not support osfamily #{facts[:osfamily]}/m)
         end
 
@@ -53,7 +53,7 @@ describe 'remctl::client', :type => :class do
 
                     it 'should raise error' do
                         expect {
-                            should compile
+                            should compile.with_all_deps
                         }.to raise_error(/ is not a string/)
                     end
 
@@ -90,7 +90,7 @@ describe 'remctl::client', :type => :class do
 
                     it 'should raise error' do
                         expect {
-                            should compile
+                            should compile.with_all_deps
                         }.to raise_error(/ is not a string/)
                     end
                 end # context with bad value
@@ -121,9 +121,14 @@ describe 'remctl::client', :type => :class do
                     :ensure     => 'present'
                 } end
 
+                # Just for code coverage ...
+                it 'should contain server' do
+                    should contain_class('Remctl::Server')
+                end
+
                 # https://github.com/ccin2p3/puppet-ccin2p3-remctl/issues/2
                 it 'shouldn\'t declare package twice' do
-                    should compile
+                    should compile.with_all_deps
                 end
 
             end # context 'with server also declared'
