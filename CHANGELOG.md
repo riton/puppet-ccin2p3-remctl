@@ -1,4 +1,4 @@
-#### 2014-05-16 - Remi Ferrand <puppet@cc.in2p3.fr> - 1.2.0
+#### 2014-05-16 - Remi Ferrand <puppet@cc.in2p3.fr> - 2.0.0
 ##### Bugfixes
 * Fixed duplicate resource declaration when client is included before server 
 (https://github.com/ccin2p3/puppet-ccin2p3-remctl/issues/10).

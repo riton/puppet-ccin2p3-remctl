@@ -29,12 +29,12 @@
 
 The remctl module allows you to:
 * install remctl client through puppet manifests.
-* set up remctl server through xinetd
+* set up remctl server through xinetd.
 * manage remctl command and ACL files via puppet manifests.
 
 ##Module Description
 
-remctl is a client/server application that supports remote execution of specific commands, using Kerberos GSS-API for authentication and confidentiality.
+[remctl](http://www.eyrie.org/~eagle/software/remctl/) is a client/server application that supports remote execution of specific commands, using Kerberos GSS-API for authentication and confidentiality.
 This module provides simplified way to deploy server, command and ACL files.
 
 ##Setup
@@ -167,7 +167,7 @@ Enable verbose debug logging (see `remctld(8)` `-d` option). Defaults to `false`
 
 #####`disable`
 
-Disable xinetd service. Defaults to `true`.
+Disable remctl xinetd service. Defaults to `true`.
 
 #####`krb5_service`
 
@@ -183,11 +183,11 @@ Specifies port to use. Defaults to `4373`.
 
 #####`user`
 
-User to run xinetd service as. Defaults to `root`.
+User to run remctl xinetd service as. Defaults to `root`.
 
 #####`group`
 
-Group to run xinetd service as. Defaults to `root`.
+Group to run remctl xinetd service as. Defaults to `root`.
 
 #####`manage_user`
 
@@ -196,11 +196,11 @@ If `manage_user` is set to `true` and user or group is root or zero, this module
 
 #####`only_from`
 
-List of resources that are allowed to access this xinetd service (see `xinetd.conf(5)` `only_from` option for format). Defaults to `[ '0.0.0.0' ]`.
+List of remote hosts that are allowed to access remctl service (see `xinetd.conf(5)` `only_from` option for format). Defaults to `[ '0.0.0.0' ]`.
 
 #####`no_access`
 
-List of resources that are not allowed to access this xinetd service (see `xinetd.conf(5)` `no_access` option for format). Defaults to `[]`.
+List of remote hosts that are not allowed to access remctl service (see `xinetd.conf(5)` `no_access` option for format). Defaults to `[]`.
 
 #####`bind`
 
@@ -278,23 +278,23 @@ Array of acls as desribed in `remctld(8)` `acl` section.
 
 ####Public Classes
 
-* [`remctl`](#class-remctl): This class actually does nothing
-* [`remctl::client`](#class-remctlclient): Install remctl client
-* [`remctl::server`](#class-remctlserver): Install, configure remctl server through xinetd and handles configuration file
+* [`remctl`](#class-remctl): This class actually does nothing.
+* [`remctl::client`](#class-remctlclient): Installs remctl client.
+* [`remctl::server`](#class-remctlserver): Installs, configures remctl server through xinetd and handles configuration file.
 
 ####Private Classes
 
-* `remctl::params`: Manages remctl parameters
+* `remctl::params`: Manages remctl parameters.
 
 ###Defined Types
 
 ####Public Defined Types
 
-* [`remctl::server::aclfile`](#defined-type-remctlserveraclfile): Creates an ACL file conform to remctl ACL file format.
+* [`remctl::server::aclfile`](#defined-type-remctlserveraclfile): Creates an ACL file compliant with remctl ACL file format.
 * [`remctl::server::command`](#defined-type-remctlservercommand): Creates a new command definition.
 
 ##Limitations
 
-This module currently only work on `RedHat` and `Debian` os families and expects that the `remctl*` packages are available with your current repository configuration.
+This module currently only works on `RedHat` and `Debian` os families and expects that the `remctl*` packages are available with your current repository configuration.
 
-All xinetd options were not exposed through the `remctl::server` class. If you need a specific xinetd option, please fill a bug report and we'll add it.
+All xinetd options were not exposed through the `remctl::server` class. If you need a specific xinetd option, please file a bug report and we'll add it.
