@@ -1,6 +1,6 @@
 #remctl
 
-[![Build Status](https://travis-ci.org/ccin2p3/puppet-ccin2p3-remctl.svg?branch=master)](https://travis-ci.org/ccin2p3/puppet-ccin2p3-remctl)
+[![Build Status](https://travis-ci.org/ccin2p3/puppet-remctl.svg?branch=master)](https://travis-ci.org/ccin2p3/puppet-remctl)
 
 ####Table of Contents
 
