@@ -6,24 +6,25 @@
 
 1. [Overview - What is the remctl module](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with remctl](#setup)
+3. [Module Versioning - What does version numbers mean](#module-versioning)
+4. [Setup - The basics of getting started with remctl](#setup)
     * [What remctl affects](#what-remctl-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with remctl](#beginning-with-remctl)
-4. [Usage - Configuration options and additional functionality](#usage)
+5. [Usage - Configuration options and additional functionality](#usage)
     * [Classes and Defined Types](#classes-and-defined-types)
         * [Class: remctl](#class-remctl)
         * [Class: remctl::client](#class-remctlclient)
         * [Class: remctl::server](#class-remctlserver)
         * [Defined Type: remctl::server::aclfile](#defined-type-remctlserveraclfile)
         * [Defined Type: remctl::server::command](#defined-type-remctlservercommand)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+6. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
     * [Classes](#classes)
         * [Public Classes](#public-classes)
         * [Private Classes](#private-classes)
     * [Defined Types](#defined-types)
         * [Public defined types](#public-defined-types)
-6. [Limitations - OS compatibility, etc.](#limitations)
+7. [Limitations - OS compatibility, etc.](#limitations)
 
 ##Overview
 
@@ -36,6 +37,14 @@ The remctl module allows you to:
 
 [remctl](http://www.eyrie.org/~eagle/software/remctl/) is a client/server application that supports remote execution of specific commands, using Kerberos GSS-API for authentication and confidentiality.
 This module provides simplified way to deploy server, command and ACL files.
+
+##Module Versioning
+
+This module adheres to [Semantic versioning](http://semver.org/) and it's version numbers use the format _X.Y.Z_, where:
+
+* _X_ must increase for major backwards-incompatible changes
+* _Y_ must increase for backwards-compatible new functionality
+* _Z_ must increase for bug fixes
 
 ##Setup
 
