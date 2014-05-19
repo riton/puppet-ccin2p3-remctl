@@ -1,5 +1,5 @@
 name    'ccin2p3-remctl'
-version '2.0.0'
+version '2.1.0'
 source 'https://github.com/ccin2p3/puppet-remctl'
 author 'IN2P3 Computing Centre'
 license 'CeCILL'
