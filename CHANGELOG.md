@@ -1,3 +1,10 @@
+#### 2014-05-19 - Remi Ferrand <puppet@cc.in2p3.fr> - 2.1.0
+##### Bugfixes
+* Fixes random sort changes in command files when using multiple `options` was used (https://github.com/ccin2p3/puppet-remctl/issues/11).
+
+##### New features
+* Now relies on `puppetlabs-concat` to concat all subcommands of a command in the same file.
+
 #### 2014-05-16 - Remi Ferrand <puppet@cc.in2p3.fr> - 2.0.0
 ##### Bugfixes
 * Fixed duplicate resource declaration when client is included before server 
