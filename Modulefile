@@ -8,3 +8,4 @@ description 'Puppet module to configure and deploy remctl server, acl and comman
 project_page 'https://github.com/ccin2p3/puppet-remctl'
 dependency 'puppetlabs/stdlib', '4.x'
 dependency 'puppetlabs/xinetd', '1.x'
+dependency 'puppetlabs/concat', '1.x'

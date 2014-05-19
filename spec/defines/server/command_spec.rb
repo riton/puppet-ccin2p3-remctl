@@ -5,6 +5,10 @@ oses_specs = @oses_specs
 
 describe 'remctl::server::command', :type => :define do
 
+    let :concat_basedir do
+        '/tmp'
+    end
+
     let :title do
         'rspec-command'
     end
@@ -55,7 +59,8 @@ describe 'remctl::server::command', :type => :define do
 
             let :facts do {
                 :osfamily               => specs[:osfamily],
-                :operatingsystem        => specs[:operatingsystem]
+                :operatingsystem        => specs[:operatingsystem],
+                :concat_basedir         => specs[:concat_basedir]
             } end
 
             describe '#command / #subcommand / #executable / #options / #acls' do
@@ -97,15 +102,32 @@ describe 'remctl::server::command', :type => :define do
                         :acls           => ['princ:goodguy@IN2P3.FR', 'unixgroup:goodguys']
                     } end
 
-                    it 'should have command file' do
-                        should contain_file(cmdfile).with({
-                            :ensure     => 'file',
+                    it 'should have concat object' do
+                        should contain_concat("#{confdir}/kadmin").with({
+                            :ensure     => 'present',
                             :mode       => default_file_mode,
                             :owner      => default_user,
                             :group      => default_group,
-                            :content    => %r'^kadmin\s+change_pw\s+\\\n/usr/kerberos/sbin/kadmin\s+\\\n^princ:goodguy@IN2P3.FR\s+unixgroup:goodguys$'m
                         })
                     end
+
+                    it 'should have puppet header fragment' do
+                        should contain_concat__fragment('kadmin_puppet_header').with({
+                            :target         => "#{confdir}/kadmin",
+                            :order          => '01',
+                            :content        => /^#.+?DO NOT EDIT/m
+                        })
+                    end
+
+                    it 'should have command fragment' do
+                        should contain_concat__fragment('kadmin_change_pw').with({
+                            :ensure         => 'present',
+                            :target         => "#{confdir}/kadmin",
+                            :order          => '02',
+                            :content        => %r'^kadmin\s+change_pw\s+\\\n/usr/kerberos/sbin/kadmin\s+\\\n^princ:goodguy@IN2P3.FR\s+unixgroup:goodguys$'m
+                        })
+                    end
+
                 end # context 'with default options'
 
 
@@ -121,15 +143,14 @@ describe 'remctl::server::command', :type => :define do
                         }
                     } end
 
-                    it 'should have correct options' do
-                        should contain_file(cmdfile).with({
-                            :ensure     => 'file',
-                            :mode       => default_file_mode,
-                            :owner      => default_user,
-                            :group      => default_group,
-                            :content    => %r'^/usr/kerberos/sbin/kadmin\s+\\\n(user=nobody|help=-h)\s+\\\n(help=-h|user=nobody)\s+\\\n^unixgroup:goodguys$'m
+                    it 'should have correct options sorted' do
+                        should contain_concat__fragment('kadmin_change_pw').with({
+                            :ensure         => 'present',
+                            :target         => "#{confdir}/kadmin",
+                            :content    => %r'^/usr/kerberos/sbin/kadmin\s+\\\nhelp=-h\s+\\\nuser=nobody\s+\\\n^unixgroup:goodguys$'m
                         })
                     end
+
                 end # context 'with custom options'
 
             end # describe '#command / #subcommand / #executable'
@@ -163,7 +184,7 @@ describe 'remctl::server::command', :type => :define do
                     } end
 
                     it 'should have acl file present' do
-                        should contain_file(cmdfile).with_ensure('file')
+                        should contain_concat("#{confdir}/kadmin").with_ensure('present')
                     end
 
                 end # context with ensure present
@@ -178,14 +199,47 @@ describe 'remctl::server::command', :type => :define do
                     } end
 
                     it 'should have acl file absent' do
-                        should contain_file(cmdfile).with_ensure('absent')
+                        should contain_concat("#{confdir}/kadmin").with_ensure('absent')
                     end
 
                 end # context with ensure absent
 
             end # describe #ensure
 
+            describe 'with another remctl::server::command defined type' do
+                let :pre_condition do
+                    'class { "remctl::server": }
+                     remctl::server::command { "00-kadmin_other":
+                        command         => "kadmin",
+                        subcommand      => "other",
+                        executable      => "/usr/sbin/kadmin",
+                        acls            => ["princ:where@EXAMPLE.ORG"]
+                    }
+                    '
+                end
+
+                let :title do
+                    '10-kadmin_changepw'
+                end
+
+                let :params do {
+                    :command        => 'kadmin',
+                    :subcommand     => 'change_pw',
+                    :executable     => '/usr/kerberos/sbin/kadmin',
+                    :acls           => ['princ:goodguy@IN2P3.FR', 'unixgroup:goodguys']
+                } end
+
+                it 'should have all fragments' do
+                    should contain_concat("#{confdir}/kadmin")
+                    should contain_concat__fragment('kadmin_other')
+                    should contain_concat__fragment('kadmin_change_pw')
+                end
+
+            end # describe with another remctl::server::command defined type
+
         end # describe running on
+
+        break
 
     end # oses_facts.each
 

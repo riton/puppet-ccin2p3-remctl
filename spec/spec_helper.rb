@@ -23,6 +23,8 @@ end
 # end
 
 @common_specs = {
+    :concat_basedir             => '/tmp',
+
     :basedir                    => '/etc/remctl',
     :confdir                    => '/etc/remctl/conf.d',
     :conffile                   => '/etc/remctl/remctl.conf',

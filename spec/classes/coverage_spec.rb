@@ -11,7 +11,21 @@
  'Stage[deploy_infra]', 'Stage[runtime]', 'Stage[setup]',
  'Stage[setup_app]', 'Stage[setup_infra]',
  'Remctl::Server::Aclfile[rspec-aclfile]',
- 'Remctl::Server::Command[rspec-command]'].each do |f|
+ 'Class[Concat::Setup]', 'Exec[concat_/etc/remctl/conf.d/kadmin]',
+ 'File[/etc/remctl/conf.d/kadmin]',
+ 'File[/tmp/_etc_remctl_conf.d_kadmin/fragments.concat.out]',
+ 'File[/tmp/_etc_remctl_conf.d_kadmin/fragments.concat]',
+ 'File[/tmp/_etc_remctl_conf.d_kadmin/fragments/01_kadmin_puppet_header]',
+ 'File[/tmp/_etc_remctl_conf.d_kadmin/fragments/02_kadmin_change_pw]',
+ 'File[/tmp/_etc_remctl_conf.d_kadmin/fragments/02_kadmin_other]',
+ 'File[/tmp/_etc_remctl_conf.d_kadmin/fragments]',
+ 'File[/tmp/_etc_remctl_conf.d_kadmin]',
+ 'File[/tmp/bin/concatfragments.sh]',
+ 'File[/tmp/bin]',
+ 'File[/tmp]',
+ 'Remctl::Server::Command[10-kadmin_changepw]',
+ 'Remctl::Server::Command[rspec-command]',
+ 'Remctl::Server::Command[00-kadmin_other]'].each do |f|
     RSpec::Puppet::Coverage.filters << f
 end
 

@@ -18,19 +18,34 @@ define remctl::server::command (
     validate_array($acls)
     validate_re($ensure, '^(present|absent)$')
 
-    $cmdfile = "${remctl::server::confdir}/${name}"
+    $cmdfile = "${remctl::server::confdir}/${command}"
     $_files_ensure = $ensure ? { 'present' => 'file', 'absent' => 'absent' }
 
     if (!$acls or size($acls) == 0) {
         fail("Missing acls for commmand '${command}/${subcommand}'")
     }
 
-    file { $cmdfile:
-        ensure      => $_files_ensure,
-        mode        => '0440',
-        owner       => $remctl::server::user,
-        group       => $remctl::server::group,
-        content     => template('remctl/server/command.erb')
+    if ! defined(Concat[$cmdfile]) {
+        concat { $cmdfile:
+            ensure  => $ensure,
+            mode    => '0440',
+            owner   => $remctl::server::user,
+            group   => $remctl::server::group
+        }
+
+        concat::fragment { "${command}_puppet_header":
+            ensure          => $ensure,
+            target          => $cmdfile,
+            order           => '01',
+            content         => "# This file is being maintained by Puppet.\n# DO NOT EDIT\n"
+        }
+    }
+
+    concat::fragment { "${command}_${subcommand}":
+        ensure          => $ensure,
+        target          => $cmdfile,
+        order           => '02',
+        content         => template('remctl/server/command.erb'),
     }
 }
 
