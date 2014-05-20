@@ -27,8 +27,9 @@ define remctl::server::command (
 
     if ! defined(Concat[$cmdfile]) {
         concat { $cmdfile:
-            ensure  => $ensure,
+            ensure  => present,
             mode    => '0440',
+            force   => false,
             owner   => $remctl::server::user,
             group   => $remctl::server::group
         }

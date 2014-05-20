@@ -199,7 +199,10 @@ describe 'remctl::server::command', :type => :define do
                     } end
 
                     it 'should have acl file absent' do
-                        should contain_concat("#{confdir}/kadmin").with_ensure('absent')
+                        should contain_concat("#{confdir}/kadmin").with({
+                            :ensure     => 'present',
+                            :force      => false
+                        })
                     end
 
                 end # context with ensure absent
@@ -210,6 +213,7 @@ describe 'remctl::server::command', :type => :define do
                 let :pre_condition do
                     'class { "remctl::server": }
                      remctl::server::command { "00-kadmin_other":
+                        ensure          => "absent",
                         command         => "kadmin",
                         subcommand      => "other",
                         executable      => "/usr/sbin/kadmin",
@@ -223,6 +227,7 @@ describe 'remctl::server::command', :type => :define do
                 end
 
                 let :params do {
+                    :ensure         => 'present',
                     :command        => 'kadmin',
                     :subcommand     => 'change_pw',
                     :executable     => '/usr/kerberos/sbin/kadmin',
@@ -230,9 +235,9 @@ describe 'remctl::server::command', :type => :define do
                 } end
 
                 it 'should have all fragments' do
-                    should contain_concat("#{confdir}/kadmin")
-                    should contain_concat__fragment('kadmin_other')
-                    should contain_concat__fragment('kadmin_change_pw')
+                    should contain_concat("#{confdir}/kadmin").with_ensure('present')
+                    should contain_concat__fragment('kadmin_other').with_ensure('absent')
+                    should contain_concat__fragment('kadmin_change_pw').with_ensure('present')
                 end
 
             end # describe with another remctl::server::command defined type
