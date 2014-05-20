@@ -21,10 +21,7 @@ class remctl::server (
 ) inherits params {
 
     require stdlib
-
-    if ! defined(Class['Xinetd']) {
-        include xinetd
-    }
+    include xinetd
 
     validate_string($ensure)
     validate_string($user)
