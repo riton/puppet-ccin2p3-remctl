@@ -1,3 +1,4 @@
+#
 define remctl::server::command (
     $command,
     $subcommand,
