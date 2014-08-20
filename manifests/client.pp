@@ -4,7 +4,7 @@
 class remctl::client (
     $ensure             = 'present',
     $package_name       = $remctl::params::client_package_name
-) inherits params {
+) inherits ::remctl::params {
 
     require stdlib
 
